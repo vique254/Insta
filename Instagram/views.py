@@ -6,6 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required(login_url='/accounts/login/')
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -15,7 +16,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('login')
     else:
         form =UserCreationForm()
     return render(request, 'index.html', {'form': form})
