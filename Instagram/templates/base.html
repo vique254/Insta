@@ -1,10 +1,11 @@
 {% load bootstrap4 %}
+{%load staticfiles%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     {% if title %}
     <title>Instagram - {{title}}</title>
     {% else%}
@@ -15,14 +16,9 @@
     {% endblock %}
 </head>
 <body>
-  
-  {% block scripts %}
-  {% block content %} <h1 class="text-center">Instagram</h1>{%endblock%}
-  <script src="https://ajax.googleapis.com/libs/jquery/3.2.1/jquery.min.js"></script> 
-  {% bootstrap_javascript %} 
-  {% endblock %}
 
   <header>
+      
     <div class="navigation">
     <div class="instalogo">
     <a href="/"><i class="fab fa-instagram"></i></a>  
@@ -40,5 +36,9 @@
     </div>
     </div>
   </header>
+  <div class="content_container">
+    {%block content %}
+    {%endblock%}
+  </div>
 </body>
 </html>
