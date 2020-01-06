@@ -20,3 +20,7 @@ def signup(request):
     else:
         form =UserCreationForm()
     return render(request, 'index.html', {'form': form})
+def Posts(request):
+    posts = Post.objects.all()
+    return render (request,'posts.html', {'posts':posts})
+    
