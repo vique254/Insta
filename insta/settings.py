@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Instagram',
     'bootstrap3',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,8 +127,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"static"),
 ]
-LOGIN_redirect =[
-    
+LOGIN_REDIRECT_URL =[
+    'Posts'
+]
+LOGIN_URL =[
+    'login'
 ]
 MEDIA_URL ='/media/'
 MEDIA_ROOT =os.path.join(BASE_DIR, 'media')

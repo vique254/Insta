@@ -19,6 +19,7 @@ from django.contrib.auth import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^',include('Instagram.urls')),
+    url(r'^signup/$', views.signup, {'template_name': 'useraccounts/signup.html'}, name='signup'),
     url(r'^accounts/',include('registration.backends.simple.urls')),
     url(r'^logout/$', views.logout, {"next_page": '/'}), 
 ]

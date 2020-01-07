@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 @login_required(login_url='/accounts/login/')
-def signup(request):
+def home(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -20,6 +20,8 @@ def signup(request):
     else:
         form =UserCreationForm()
     return render(request, 'index.html', {'form': form})
+def signup(request):
+    return render(request,'signup.html')
 def Posts(request):
     posts = Post.objects.all()
     return render (request,'posts.html', {'posts':posts})
