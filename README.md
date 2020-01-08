@@ -1,5 +1,5 @@
 ### ***INSTAGRAM***
-![insta](https://www.instagram.com/)
+![insta](https://cdn.pixabay.com/photo/2016/07/15/16/12/instagram-1519537_960_720.jpg)
 
 ## Author
 [Vique254](https://github.com/vique254)
