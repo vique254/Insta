@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+import django_heroku
+import dj_database_url
+from decouple import config,Csv
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,7 +27,7 @@ SECRET_KEY = '*=t)%f)q#p01@#vx^kh!l1gr5*og8o%+z=xm6u5u-glyt%)%5e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -33,13 +35,17 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Instagram',
     'bootstrap3',
-    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
+    'crispy_forms',
+    'imagekit',
+    'annoying',
+    
 ]
 
 MIDDLEWARE = [
@@ -123,15 +129,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"static"),
 ]
 LOGIN_REDIRECT_URL =[
-    'Posts'
+    '/'
 ]
 LOGIN_URL =[
     'login'
 ]
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'Instagram/static')
 MEDIA_URL ='/media/'
 MEDIA_ROOT =os.path.join(BASE_DIR, 'media')
+try:
+    from local_settings import *
+except ImportError as e:
+    pass

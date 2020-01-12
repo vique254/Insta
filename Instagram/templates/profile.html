@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block maincontent %}
+    {% include "navbar.html" %}
+
+    <section class="insta-profile">
+        <section class="insta-profile_header">
+            <section class="insta-profile_picture_container">
+                <img class="insta-profile_picture" src="{% static '' %}{{ my_user.photo|default_if_none:'images/default.png' }}" alt="Foto de perfil">
+            </section>
+            <section class="insta-profile_data">
+                <article class="insta-profile_data_section">
+                    <span class="insta-profile_username">{{ current_username }}</span>
+                    {% if current_username == username %}
+                        <button class="insta-profile_edit">Edit profile</button>
+                        <a href="" class="fa fa-cog insta-profile_cog" ></a>
+                    {% else %}
+                        {% if is_follow %}
+                            <form action="{% url 'unfollow' username current_username %}">
+                                <button class="insta-profile_edit">Stop Following</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'follow' username current_username %}">
+                                <button class="insta-profile_edit">Follow</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </article>
+                <article class="insta-profile_data_section">
+                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ post|length }}</span> publicacions</p>
+                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ number_followers }}</span> Followers</p>
+                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ number_victims }}</span> In a row</p>
+                </article>
+                <p class="insta-profile_description"><span>{{ my_user.user_django.first_name }}</span> {{ my_user.description|default_if_none:"" }} </p>
+            </section>
+        </section>
+        <section class="insta-profile_gallery">
+            {% for curr_post in post %}
+            <article class="insta-profile_photo">
+                <img class="insta-profile_photo_image" src="{% static '' %}{{curr_post.photo}}" alt="">
+                <section class="insta-profile_photo_content">
+                    <span class="insta-profile_photo_icon"><span class="fa fa-heart"> </span>{{ curr_post.like_set.count }}</span>
+                    <span class="insta-profile_photo_icon"><span class="fa fa-comment"> </span>{{ curr_post.comment_set.count }}</span>
+                </section>
+            </article>
+            {% endfor %}
+        </section>
+    </section>
+
+	{% include "footer.html" %}
+{% endblock %}

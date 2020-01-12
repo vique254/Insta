@@ -1,34 +1,44 @@
-from django.db import models
-from django.utils import timezone
-from django.db.models.signals import post_save
+from ago import human
+import pytz
 from datetime import datetime
-from django.conf import settings 
-from django.dispatch import receiver
+from django.db import models
 from django.contrib.auth.models import User
 
 
-# Create your models here.
-
 class Post(models.Model):
-    author  = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    image   = models.ImageField(default='default.png', blank=True)
-    caption = models.TextField()
-    likes   = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, related_name='post_likes')
-    created_date = models.DateTimeField(default=timezone.now)
+    image = models.ImageField(upload_to = 'home/')
+    description = models.CharField(null=True, max_length=200)
+    date = models.DateTimeField(default=datetime.now())
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
 
-    
     def __str__(self):
-        return self.caption
+        result = datetime.now().replace(tzinfo=pytz.timezone('Africa/Nairobi')) - self.date
+        return human(result)
 
-class UserProfile(models.Model):
-    first_name = models.CharField(max_length=150)
-    last_name =  models.CharField(max_length=150)
-    email = models.EmailField(max_length=150)
-    birth_date = models.DateField()
-    password = models.CharField(max_length=150)
+class MyUser(models.Model):
+    image = models.ForeignKey()
+    description = models.CharField(null=True, max_length=200)
+    birth_date = models.DateField(null=True)
+    user_django = models.OneToOneField(User, on_delete=models.CASCADE)
 
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-    instance.profile.save()    
+
+class Follow(models.Model):
+    user_from = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='user_from')
+    user_to = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='user_to')
+
+    def __str__(self):
+        message = 'User {} follow {}'
+        return message.format(self.user_from.user_django.username, self.user_to.user_django.username)
+
+
+
+class Comment(models.Model):
+    content = models.CharField(max_length=200)
+    date = models.DateTimeField(default=datetime.now())
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)

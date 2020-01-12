@@ -1,0 +1,38 @@
+ 
+{% load static %}
+<section class="insta-card">
+    <section class="insta-card-header">
+        <img src="{% static '' %}{{ post.user.photo|default_if_none:'images/default.png' }}" alt="user picture" class="insta-card-profilepicture">
+        <p class="insta-card-username">{{ post.user.user_django.username }}</p>
+    </section>
+    <section class="insta-card-picture-container">
+            <img src="{% static '' %}{{ post.photo }}" alt="picture" class="insta-card-picture">
+    </section>
+    <section class="insta-card-icons">
+        {% if post.id in likes %}
+            <span class="fa fa-heart insta-do-like" postid="{{ post.id }}" target="#post-likes-text-{{ post.id }}"></span>
+        {% else %}
+            <span class="fa fa-heart-o insta-do-like" postid="{{ post.id }}" target="#post-likes-text-{{ post.id }}"></span>
+        {% endif %}
+
+        <span class="fa fa-comment-o"></span>
+    </section>
+    <p class="insta-card-likes">A <span id="post-likes-text-{{ post.id }}">{{ post.like_set.count }}</span> People like this</p>
+    <p class="insta-card-description">
+        <span class="insta-card-username">{{ post.user.user_django.username }}</span>
+        {{ post.description }}
+    </p>
+    <section class="insta-card-comments">
+        {% for comment in post.comment_set.all %}
+        <p class="insta-card-comment">
+            <span class="insta-card-comment-user">{{ comment.user.user_django.username }}</span>
+            {{ comment.content }}
+        </p>
+        {% endfor %}
+    </section>
+    <span class="insta-card-time">{{ post }}</span>
+    <form method="POST" action="{% url 'comment' post.id %}" class="insta-card-form">
+        {% csrf_token %}
+        <input name='comment' class="insta-card-input" placeholder="Add a comment..."/>
+    </form>
+</section>

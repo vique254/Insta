@@ -1,35 +1,27 @@
-{% extends 'base.html'%}
-{% load bootstrap3 %}
-{% load crispy_forms_tags %}
+ 
+{% extends "base.html" %}
+{%load bootstrap3%}
 {% load static %}
-{{block.super}}
-{%block content%}
-<link rel="stylesheet" href="{% static 'css/insta.css' %}">
-<link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">
-<h1 class="text-center" style="font-family:14px-'Great Vibes', cursive;">Instagram</h1>
-<div class="container">
-    <div class="row">
-<img src="https://images.indianexpress.com/2016/09/instagram-7591.jpg" alt="">
-    </div>
 
-    <div class="content-section">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join Now</legend>
-                {{ form|crispy }}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">Sign Up</button>
-            </div>
-        </form>
-        <div class="border-top pt-3">
-            <small class="text-muted">
-                Already have an account? <a class="ml-2" href="{% url '' %}">Sign In</a>
-            </small>
-        </div>
-    </div>
-      
-</div>
-
-{%endblock%}
+{% block maincontent %}
+	<section class="insta-index_content">
+		<img src="https://images.indianexpress.com/2016/09/instagram-7591.jpg" style="width: 100%; height:100%;" alt="Instagram phones" class="insta-index_phones">
+		<section class="insta-index_data">
+			<form method="POST" action="{% url 'register' %}" class="insta-index_box insta-form" autocomplete="off">
+				{% csrf_token %}
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwHnp1jEmRAMah_qx0cBJgZNy39R6rCJSoNZir4SJFQHg5cfXP&s" alt="Instagram logo" class="insta-form_image">
+				<p class="insta-form_message">Sign up to see photos and videos of your friends..</p>
+				<input class="insta-form_input" name="email" type="email" placeholder="Email" required>
+				<input class="insta-form_input" name="name" type="text" placeholder="Name" required>
+				<input class="insta-form_input" name="username" type="text" placeholder="Username" required>
+				<input class="insta-form_input" name="password" type="password" placeholder="Password" required>
+				<button class="insta-form_button"> <a href="{% url 'login' %}"></a>Sign Up</button>
+				<p class="insta-form_conditions">By registering, <span class="bold">you accept our Terms </span> and <span class="bold">Privacy Policy </span>.</p>
+			</form>
+			<section class="insta-index_box">
+				<p class="insta-index_login">You have an account? <a href="{% url 'login' %}">Log in</a></p>
+			</section>
+		</section>
+	</section>
+	{% include "footer.html" %}
+{% endblock %}

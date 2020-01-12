@@ -1,13 +1,20 @@
 from django.conf.urls import url
-from django.conf import settings
-from django.conf.urls.static import static
 from . import views
-    
+from django.contrib.auth import views as auth_views
 
-
-urlpatterns=[
-    url(r'^$',views.home,name='home'),
-    url(r'^Posts/$',views.Posts,name='posts')
+urlpatterns = [
+    url('^$', views.index, name="index"),
+    url(r'^login/', views.login, name="login"),
+    url(r'^home/', views.home, name="home"),
+    url(r'^like/', views.like, name="like"),
+    url(r'^dislike/', views.dislike, name="dislike"),
+    url(r'^comment/<int:post_id>', views.comment, name="comment"),
+    url(r'^profile/<str:username>', views.profile, name="profile"),
+    url(r'^register/', views.register, name="register"),
+    url(r'^loginuser/', views.login, name="validate"),
+    url(r'^logout/', auth_views.LogoutView.as_view(), name="logout"),
+    url(r'^upload/', views.upload_photo, name="upload"),
+    url(r'^search/', views.search, name="search"),
+    url(r'^follow/<str:begin>/<str:end>', views.follow, name="follow"),
+    url(r'^unfollow/<str:begin>/<str:end>', views.unfollow, name="unfollow"),
 ]
-if settings.DEBUG:
-    urlpatterns+=static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
