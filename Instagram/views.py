@@ -15,10 +15,10 @@ from django.views import generic
 from django.contrib.auth.forms import UserCreationForm
 
 
-def index(request):
-    if request.user.is_authenticated:
-        return redirect('index')
-    return render(request, "index.html")
+# def index(request):
+#     if request.user.is_authenticated:
+#         return redirect('index')
+#     return render(request, "index.html")
 
 
 # def login(request):
