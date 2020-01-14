@@ -24,7 +24,7 @@
             <section class="insta-users-users">
                 {% for user in all_users %}
                 <a href="{% url 'profile' user.username %}" class="insta-users-user">
-                    <img src="{% static '' %}{{ user.myuser.photo|default_if_none:'images/default.png' }}" alt="picture" class="insta-users-user-profilepicture">
+                    <img src="{% static '' %}{{ user.post.photo|default_if_none:'images/default.png' }}" alt="picture" class="insta-users-user-profilepicture">
                     <span class="insta-users-username">{{ user.username }}</span>
                 </a>
                 {% endfor %}

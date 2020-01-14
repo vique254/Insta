@@ -7,17 +7,8 @@
 	<section class="insta-index_content">
 		<img src="https://images.indianexpress.com/2016/09/instagram-7591.jpg" style="width: 100%; height:100%;" alt="Instagram phones" class="insta-index_phones">
 		<section class="insta-index_data">
-			<form method="POST" action="{% url 'register' %}" class="insta-index_box insta-form" autocomplete="off">
-				{% csrf_token %}
+			
 				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwHnp1jEmRAMah_qx0cBJgZNy39R6rCJSoNZir4SJFQHg5cfXP&s" alt="Instagram logo" class="insta-form_image">
-				<p class="insta-form_message">Sign up to see photos and videos of your friends..</p>
-				<input class="insta-form_input" name="email" type="email" placeholder="Email" required>
-				<input class="insta-form_input" name="name" type="text" placeholder="Name" required>
-				<input class="insta-form_input" name="username" type="text" placeholder="Username" required>
-				<input class="insta-form_input" name="password" type="password" placeholder="Password" required>
-				<button class="insta-form_button"> <a href="{% url 'login' %}"></a>Sign Up</button>
-				<p class="insta-form_conditions">By registering, <span class="bold">you accept our Terms </span> and <span class="bold">Privacy Policy </span>.</p>
-			</form>
 			<section class="insta-index_box">
 				<p class="insta-index_login">You have an account? <a href="{% url 'login' %}">Log in</a></p>
 			</section>

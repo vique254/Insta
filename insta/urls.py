@@ -17,8 +17,16 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views
+from django.urls import path, include
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('Instagram.urls')),
+    path('Instagram/', include('Instagram.urls')),
+    url(r'^accounts/', include('registration.backends.simple.urls')),
+    # url(r'^logout/$', views.logout, {"next_page": '/'}),
+    path('accounts/', include('django.contrib.auth.urls')), 
+    path('', include('Instagram.urls')), # new
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

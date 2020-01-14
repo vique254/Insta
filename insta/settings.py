@@ -150,3 +150,5 @@ try:
     from local_settings import *
 except ImportError as e:
     pass
+# LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
