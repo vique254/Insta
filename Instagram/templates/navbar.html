@@ -1,5 +1,6 @@
-{% load static %}
 {% load bootstrap3 %}
+{% load static %}
+
 <nav class="insta-navbar" id="insta-navbar">
     <section class="insta-navbar_content">
         <a href="{% url 'home' %}" class="insta-navbar_section">
@@ -7,14 +8,15 @@
             <span class="insta-navbar_separator"></span>
             <img class="insta-navbar_letras" src="{% static 'images/instagram_logo_letras.png' %}" alt="Instagram">
         </a>
-        <form method="POST" action="{% url 'search' %}" autocomplete="off">
+        
+        <form method="POST" action="" autocomplete="off">
             {% csrf_token %}
             <input type="search" placeholder="search" name="search_username" class="insta-navbar_input">
         </form>
         <section class="insta-navbar_section">
-            <a href="{% url 'upload' %}" class="fa fa-camera insta-navbar_icon"></a>
-            <a href="{% url 'profile'  username  %}" class="fa fa-user-o insta-navbar_icon"></a>
-            <a href="{% url 'logout' %}" class="fa fa-sign-out insta-navbar_icon"></a>
+            <a href="" class="fa fa-camera insta-navbar_icon"></a>
+            <a href="" class="fa fa-user-o insta-navbar_icon"></a>
+            <a href="" class="fa fa-sign-out insta-navbar_icon"></a>
         </section>
     </section>
 </nav>
@@ -39,9 +41,10 @@
     </li>
   </ul>
   {% else %}
-  <li>
-    <a class='btn btn-default' href="/accounts/login">Login</a>
-  </li>
+  
+    <a class="btn btn-primary" href="/accounts/login">Login</a>
+    <a class='btn btn-danger' href="/accounts/register">Sign Up</a>
+  
 
   {% endif %}
 </div>
