@@ -1,24 +1,26 @@
-from .models import Post,Follow,Comment,Like
-from django.forms import ModelForm
 from django import forms
-class PostForm(ModelForm):
+from .models import Post,Location,Profile,Comment
+
+class LocationForm(forms.ModelForm):
     class Meta:
-        model = Post
-        fields = ['image','description','date','user']
-        
+        model=Location
+        fields=['location']
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model=Post
+        exclude=['username','post_date','likes','profilePhotos']
 
 
-class FollowForm(ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
-        model = Follow
-        fields = ['user_from','user_to']
-        
-class CommentForm(ModelForm):
+        model=Profile
+        exclude=['username']
+
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comment
-        fields = ['content','date','user','post']
-        
-class LikeForm(ModelForm):
-    class Meta:
-        model = Like
-        fields = ['user','post']                
+        model=Comment
+        exclude=['username','post']
+        widgets = {
+            'myfield': forms.TextInput(attrs={'class': 'myfieldclass'}),
+        }
