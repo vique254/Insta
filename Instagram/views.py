@@ -34,7 +34,7 @@ def new_post(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.username = current_user
-            post.profilePhotos = profile.profilePhotos
+            
 
             post.likes=0
 
