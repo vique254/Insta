@@ -27,7 +27,7 @@ def timeline(request):
 @login_required(login_url='/accounts/login/')
 def new_post(request):
     current_user = request.user
-    profile = Profile.objects.get(username=current_user)
+    
 
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
