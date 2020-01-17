@@ -1,54 +1,189 @@
-
-{% extends "base.html" %}
-
+{% extends 'base.html' %}
+{% load bootstrap3 %}
 {% load static %}
+{% load staticfiles %}
 
-{% block maincontent %}
-    {% include "navbar.html" %}
+{% block content %}
+{{block.super}}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <section class="insta-profile">
-        <section class="insta-profile_header">
-            <section class="insta-profile_picture_container">
-                <img class="insta-profile_picture" src="{% static '' %}{{ my_user.photo|default_if_none:'images/default.png' }}" alt="Foto de perfil">
-            </section>
-            <section class="insta-profile_data">
-                <article class="insta-profile_data_section">
-                    <span class="insta-profile_username">{{ current_username }}</span>
-                    {% if current_username == username %}
-                        <button class="insta-profile_edit">Edit profile</button>
-                        <a href="" class="fa fa-cog insta-profile_cog" ></a>
-                    {% else %}
-                        {% if is_follow %}
-                            <form action="{% url 'unfollow' username current_username %}">
-                                <button class="insta-profile_edit">Stop Following</button>
-                            </form>
-                        {% else %}
-                            <form action="{% url 'follow' username current_username %}">
-                                <button class="insta-profile_edit">Follow</button>
-                            </form>
-                        {% endif %}
-                    {% endif %}
-                </article>
-                <article class="insta-profile_data_section">
-                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ post|length }}</span> publicacions</p>
-                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ number_followers }}</span> Followers</p>
-                    <p class="insta-profile_counters"><span class="insta-profile_number">{{ number_victims }}</span> In a row</p>
-                </article>
-                <p class="insta-profile_description"><span>{{ my_user.user_django.first_name }}</span> {{ my_user.description|default_if_none:"" }} </p>
-            </section>
-        </section>
-        <section class="insta-profile_gallery">
-            {% for curr_post in post %}
-            <article class="insta-profile_photo">
-                <img class="insta-profile_photo_image" src="{% static '' %}{{curr_post.photo}}" alt="">
-                <section class="insta-profile_photo_content">
-                    <span class="insta-profile_photo_icon"><span class="fa fa-heart"> </span>{{ curr_post.like_set.count }}</span>
-                    <span class="insta-profile_photo_icon"><span class="fa fa-comment"> </span>{{ curr_post.comment_set.count }}</span>
-                </section>
-            </article>
-            {% endfor %}
-        </section>
-    </section>
+  <link rel="stylesheet" href="../static/css/profile.css">
 
-	{% include "footer.html" %}
+
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+</head>
+
+<div class="container">
+
+  <div class="profile">
+
+    <div class="profile-image">
+
+      <img src="{{profile.profilePhoto.url}}" class=" img img-responsive" >
+
+    </div>
+
+    <div class="profile-user-settings">
+
+      <h1 class="profile-user-name">{{profile.username}}</h1>
+
+      <button class="btn profile-edit-btn"><a href="{% url 'changeProfile' profile.username %}" style="color:black;">Edit Profile</a></button>
+
+      <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true" data-toggle="modal" data-target="#settings"></i></button>
+
+    </div>
+
+    <div class="profile-stats">
+
+      <ul>
+        <li><span class="profile-stat-count">{{post_number}}</span> posts</li>
+        <li><span class="profile-stat-count">0</span> followers</li>
+        <li><span class="profile-stat-count">0</span> following</li>
+      </ul>
+
+    </div>
+
+    <div class="profile-bio">
+
+      <p><span class="profile-real-name">{{profile.name}}</span></p>
+      <p style="white-space:pre-wrap;">{{profile.bio | safe}}</p>
+
+    </div>
+
+  </div>
+  <!-- End of profile section -->
+
+  <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content settings-modal">
+
+        <div class="modal-body">
+          <div class="text-center">
+            <ul class="list-group list-group-flush">
+              
+              <li class="list-group-item"><button class="btn btn-primary btn-lg"><a href="{% url 'logout' %}" style="color:black;">Log Out</a></button></li>
+            </ul>
+        </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+<!-- End of container -->
+
+</header>
+
+<main>
+
+<div class="container">
+
+  <div class="gallery">
+
+    {% for post in posts %}
+
+
+
+    <div class="gallery-item" tabindex="0" data-toggle="modal" data-target="#{{post.id}}">
+
+      <img src="{{post.post.url}}?w=500&h=500&fit=crop" class="gallery-image"  id="likes-{{forloop.counter0}}" data-comid="{{post.id}}" >
+      <div class="gallery-item-info">
+        <ul>
+          <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>{{post.likes}}</li>
+
+          <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>{{comment_number}}</li>
+        </ul>
+    </div>
+
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+
+          <div class="custom-card-header">
+          <div class="modal-profile-image">
+            <img src="{{post.profile_pic.url}}?w=50&h=50&fit=crop" class="gallery-image" alt=""  width=8 height=8>
+          </div>
+              <p class="username">{{post.username}}</p>
+              <footer class="location">{{post.location}}</footer>
+          </div>
+
+        </div>
+        <div class="modal-body">
+              <img src="{{post.post.url}}?w=800&h=1000&fit=crop" class="gallery-image like" id="likes-{{forloop.counter0}}" data-comid="{{post.id}}">
+        </div>
+        <div class="modal-footer">
+          <p class="card-title username like"  id="likes-{{forloop.counter0}}" data-comid="{{post.id}}" >{{post.likes}} likes</p>
+          <p class="username">{{post.username}} <span class="caption">{{post.caption|truncatechars:300 |safe }}</span></p>
+
+
+        <div id="card{{post.id}}" class="mt-2">
+               {%for comment in comments%}
+                   {%if comment.post == post.id%}
+                   <p>
+                       <strong>{{comment.username.username}}</strong> {{comment.comment}}
+                   </p>
+                   {%endif%}
+               {%endfor%}
+        </div>
+      </div>
+        <div class="modal-footer">
+
+        <div class="text-center">
+          <form method="post" enctype="multipart/form-data" id='comment{{post.id}}' class="commentformsize">
+            {% csrf_token %}
+            {% bootstrap_form form%}
+          </form>
+        </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <script type="text/javascript">
+    $('#comment{{post.id}}').submit(function(event) {
+        comment = $(this).find('#id_comment').val();
+        post = {{post.id}};
+        $.ajax({
+            url: '/comment/',
+            data: {
+              'comment': comment,
+              'post': post
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('#card{{image.id}}').append(
+                    `<p> <strong>${data.recent_comment_username}</strong> ${data.recent_comment}</p>`
+                );
+                $('#comment{{post.id}}')[0].reset();
+            }
+          });
+          event.preventDefault()
+     });
+</script>
+
+
+  {% endfor%}
+
+    </div>
+  <!-- End of gallery -->
+
+  <div class="loader"></div>
+</div>
+<!-- End of container -->
+</main>
+
+
 {% endblock %}
